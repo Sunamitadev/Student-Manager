@@ -1,18 +1,32 @@
 <div class="login-page">
- <div class="login-card">
+  <div class="login-card">
 
     <h1 class="title">Start Students</h1>
     <p class="subtitle">Faça seu login para continuar</p>
 
     <div class="login-campo">
-        <label>Usuario</label>
-        <input type="text" placeholder="Email">
+      <label>Usuário</label>
+      <input
+        type="text"
+        placeholder="Usuário"
+     (ngmodel)]="usuario"
+      />
     </div>
 
     <div class="login-campo">
-        <label>Senha</label>
-        <input type="text" placeholder="••••••••">
+      <label>Senha</label>
+      <input
+        type="password"
+        placeholder="Senha"
+       ()ngmodel]="senha"
+      />
     </div>
-    <button class="login-button">Entrar</button>
- </div>
+
+    <button type="button" (click)="entrar()">Entrar</button>
+
+    <p *ngIf="erro" style="color:red">
+      {{ erro }}
+    </p>
+
+  </div>
 </div>

@@ -6,20 +6,24 @@
 
     <div class="login-campo">
       <label>Usuário</label>
-      <input
+     <input
         type="text"
         placeholder="Usuário"
-     (ngmodel)]="usuario"
+        [(ngModel)]="usuario"
+        name="usuario"
       />
     </div>
 
     <div class="login-campo">
       <label>Senha</label>
+      
       <input
         type="password"
         placeholder="Senha"
-       ()ngmodel]="senha"
+        [(ngModel)]="senha"
+        name="senha"
       />
+
     </div>
 
     <button type="button" (click)="entrar()">Entrar</button>

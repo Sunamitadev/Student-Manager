@@ -11,7 +11,7 @@ interface TokenResponse {
 })
 export class AuthService {
 
-  private api = 'http://localhost:8080/auth/login';
+  private api = 'http://localhost:8080/auth';
 
   constructor(private http: HttpClient) {}
 

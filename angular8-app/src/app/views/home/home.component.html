@@ -1,1 +1,118 @@
-<p>Entrou na home!</p>
+<div class="page">
+
+  <!-- TÍTULO -->
+  <h1 class="title">TELA DE LISTAGEM DE ALUNOS (Pós login)</h1>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <span>Alunos</span>
+
+      <button
+        class="btn-primary"
+        (click)="irParaNovoAluno()"
+      >
+        Novo Aluno
+      </button>
+    </div>
+
+    <!-- BUSCA -->
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por nome ou matrícula..."
+        [(ngModel)]="filtro"
+        name="filtro"
+      />
+    </div>
+
+    <!-- TABELA -->
+    <table>
+
+      <thead>
+        <tr>
+          <th>Matrícula</th>
+          <th>Nome</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- Caso não tenha alunos -->
+        <tr *ngIf="alunosFiltrados.length === 0">
+          <td colspan="4" style="text-align:center; padding:20px;">
+            Nenhum aluno cadastrado.
+          </td>
+        </tr>
+
+        <!-- Listagem -->
+        <tr *ngFor="let aluno of alunosFiltrados">
+
+          <td>{{ aluno.matricula }}</td>
+
+          <td>
+            <div class="aluno-info">
+
+              <!-- FOTO (se existir) -->
+              <img
+                *ngIf="aluno.foto"
+                [src]="'http://localhost:8080/uploads/' + aluno.foto"
+                class="avatar"
+              />
+
+              <span>{{ aluno.nome }}</span>
+            </div>
+          </td>
+
+          <td>
+            <span
+              class="status"
+              [ngClass]="{
+                'ativo': aluno.status === 'ATIVO',
+                'inativo': aluno.status === 'INATIVO'
+              }"
+            >
+              {{ aluno.status }}
+            </span>
+          </td>
+
+          <td class="actions">
+
+            <!-- VER -->
+            <button
+              class="btn-icon view"
+              title="Ver detalhes"
+            >
+              <i class="fas fa-eye"></i>
+            </button>
+
+            <!-- EDITAR -->
+            <button
+              class="btn-icon edit"
+              title="Editar"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+
+            <!-- EXCLUIR -->
+            <button
+              class="btn-icon delete"
+              title="Excluir"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

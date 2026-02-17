@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   entrar() {
+    console.log("usuario: " , this.usuario);
+    console.log("senha: " , this.senha);
     this.authService.login(this.usuario, this.senha)
       .subscribe({
         next: (response) => {
@@ -38,7 +40,9 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', response.token);
 
           // redirecionar
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home'],{
+            state:{recarregar:true}
+          });
         },
         error: () => {
           this.erro = 'Usuário ou senha inválidos';

@@ -27,8 +27,6 @@
     font-weight: 700;
     font-size: 30px;
     padding: 5px;
- 
-    
 
 }
 
@@ -64,11 +62,11 @@
     margin-top: 16px;
     padding: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 30px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    background-color: aliceblue;
+    background-color: rgb(204, 39, 17);
     
 
     

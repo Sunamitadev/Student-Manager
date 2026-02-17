@@ -1,0 +1,170 @@
+/* ===== FUNDO ===== */
+.page {
+  background: #f4f4f4;
+  min-height: 100vh;
+  padding: 70px 20px;
+  display: flex;
+  justify-content: center;
+ box-sizing: border-box;
+ font-family: 'Inter', sans-serif;
+}
+
+/* ===== CARD ===== */
+.form-card {
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 45px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-right: 14px;
+  color: #444;
+}
+
+.header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #222;
+}
+
+/* ===== FOTO ===== */
+.foto-section {
+  margin-bottom: 40px;
+}
+
+.foto-section label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.foto-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+/* PREVIEW DA FOTO */
+.foto-preview img {
+  width:  50%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.btn-foto {
+  background: #f3f3f3;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #444;
+}
+
+.btn-foto:hover {
+  background: #eaeaea;
+}
+
+/* ===== FORM ===== */
+.form-group {
+  margin-bottom: 26px;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+  color: #333;
+}
+
+/* INPUT COM ÍCONE */
+.input-icon {
+  position: relative;
+}
+
+.input-icon i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b0b0b0;
+  font-size: 15px;
+}
+
+.input-icon input {
+  width: 100%;
+  padding: 15px 15px 15px 48px;
+  border-radius: 14px;
+  border: 1px solid #e6e6e6;
+  background: #fafafa;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.input-icon input:focus {
+  outline: none;
+  border: 1px solid #e60000;
+  background: #ffffff;
+}
+
+/* ===== BOTÕES ===== */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+}
+
+.btn-cancel {
+  width: 48%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  background: #dcdcdc;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-save {
+  width: 48%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  background: #e60000;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  
+}
+
+    .btn-disabled {
+      background: #cccccc !important;
+      cursor: not-allowed;
+    }
+
+
+.btn-save:hover:not(:disabled) {
+  background: #cc0000;
+}

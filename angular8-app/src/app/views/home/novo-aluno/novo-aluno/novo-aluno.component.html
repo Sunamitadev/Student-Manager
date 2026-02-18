@@ -5,7 +5,8 @@
     <!-- HEADER -->
     <div class="header">
       <button class="back-btn" (click)="cancelar()">←</button>
-      <h2>Novo Aluno</h2>
+      <h2 *ngIf="!isEditando">Novo Aluno</h2>
+      <h2 *ngIf="isEditando">Editar Aluno</h2>
     </div>
 
     <!-- FOTO -->
@@ -48,6 +49,7 @@
       <div class="input-icon">
         <i class="fas fa-user"></i>
         <input
+          [disabled]="isEditando"
           [(ngModel)]="nome"
           name="nome"
           placeholder="Digite o nome do aluno"
@@ -74,6 +76,7 @@
       <div class="input-icon">
         <i class="fas fa-id-card"></i>
         <input
+          [disabled]="isEditando"
           [(ngModel)]="cpf"
           name="cpf"
           placeholder="000.000.000-00"
@@ -98,6 +101,28 @@
       </div>
     </div>
 
+    <ng-container *ngIf="isEditando">
+        <div class="status-wrapper">
+        <label class="titulo-status">Status</label>
+
+        <div class="status-opcoes">
+            <label class="status-item">
+            <input type="radio" name="status" [(ngModel)]="status" value="ativo">
+            <span class="custom-radio ativo"></span>
+            Ativo
+            </label>
+
+            <span class="divider"></span>
+
+            <label class="status-item">
+            <input type="radio" name="status" [(ngModel)]="status" value="inativo">
+            <span class="custom-radio inativo"></span>
+            Inativo
+            </label>
+        </div>
+        </div>
+    </ng-container>
+
     <!-- BOTÕES -->
     <div class="buttons">
       <button type="button" class="btn-cancel" (click)="cancelar()">
@@ -105,10 +130,20 @@
       </button>
 
       <button type="button" class="btn-save" 
+      *ngIf="!isEditando"
       [disabled]="!formularioValido()"
       [ngClass]="{'btn-disabled': !formularioValido()}"
       (click)="cadastrar()">
         Cadastrar
+      </button>
+
+      
+      <button type="button" class="btn-save" 
+      *ngIf="isEditando"
+      [disabled]="!formularioValido()"
+      [ngClass]="{'btn-disabled': !formularioValido()}"
+      (click)="atualizar()">
+        Salvar
       </button>
     </div>
 

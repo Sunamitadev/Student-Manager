@@ -1,8 +1,8 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Aluno } from './aluno.model';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +12,6 @@ export class StudentService {
 
   constructor(private http: HttpClient) {}
 
-  // =========================
-  // TOKEN HEADER (SEM Content-Type)
-  // =========================
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
 
@@ -23,16 +20,14 @@ export class StudentService {
     });
   }
 
-  // =========================
-  // LISTAR
-  // =========================
-  listar(): Observable<Aluno[]> {
-    return this.http.get<Aluno[]>('http://localhost:8080/alunos/todos');
+  // LISTAR PAGINADO
+  listar(page: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}?page=${page}`
+    );
   }
 
-  // =========================
-  // CRIAR COM FOTO (MULTIPART)
-  // =========================
+  // CRIAR COM FOTO
   criarComFoto(formData: FormData): Observable<any> {
     return this.http.post(
       this.apiUrl,
@@ -40,4 +35,20 @@ export class StudentService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+   atualizarComFoto(id: string, formData: FormData): Observable<any> {
+    return this.http.put(
+        `${this.apiUrl}/${id}`,
+      formData,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+ buscarPorId(id: string): Observable<Aluno> {
+  return this.http.get<Aluno>(`${this.apiUrl}/${id}`);
+}
+
+ apagarAluno(id: string): Observable<any> {
+  return this.http.delete<any>(`${this.apiUrl}/${id}`);
+}
 }

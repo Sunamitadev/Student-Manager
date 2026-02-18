@@ -6,4 +6,5 @@ export interface Aluno {
     telefone: String;
     matricula: String;
     status: String;
+    foto?: string;
 }

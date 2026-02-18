@@ -77,6 +77,35 @@ th, td {
     object-fit: cover;
 }
 
+.pagination {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: #f3f3f3;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.pagination button.active {
+  background: #e60000;
+  color: white;
+}
+
+.pagination button:hover:not(.active) {
+  background: #e0e0e0;
+}
+
+.pagination .arrow {
+  font-size: 20px;
+}
 .view { background: #6c757d; color: white; }
 .edit { background: #007bff; color: white; }
 .delete { background: #dc3545; color: white; }

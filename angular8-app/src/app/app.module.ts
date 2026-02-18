@@ -8,13 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './views/login/login.component';
 import { NovoAlunoComponent } from './views/home/novo-aluno/novo-aluno/novo-aluno.component';
+import { AlunoDetalheComponent } from './views/home/aluno-detalhe/aluno-detalhe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    NovoAlunoComponent
+    NovoAlunoComponent,
+    AlunoDetalheComponent
   ],
   imports: [
     BrowserModule,

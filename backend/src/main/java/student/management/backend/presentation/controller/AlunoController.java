@@ -3,21 +3,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import student.management.backend.application.dto.AlunoRequestDTO;
+import student.management.backend.application.dto.AlunoResponseDTO;
 import student.management.backend.application.dto.PaginaResultado;
+import student.management.backend.application.dto.PaginaResultadoDTO;
 import student.management.backend.application.usecase.*;
 import student.management.backend.domain.model.Aluno;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import student.management.backend.domain.model.Status;
 import student.management.backend.presentation.dto.AtualizarAlunoRequest;
-import org.springframework.web.multipart.MultipartFile ;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +30,7 @@ public class AlunoController {
     private final AtualizarAlunoUseCase atualizarAluno;
     private final AtivarAlunoUseCase ativarAluno;
     private final BuscarAlunoPorIdUseCase buscarPorIdUseCase;
-
+    private  final SalvarFotoUseCase salvarFotoUseCase;
 
     public AlunoController(
             CriarAlunoUseCase criar,
@@ -41,7 +39,7 @@ public class AlunoController {
             BuscarAlunoPorNomeUseCase buscarPorNome,
             AtualizarAlunoUseCase atualizarAluno,
             AtivarAlunoUseCase ativarAluno,
-            BuscarAlunoPorIdUseCase buscarPorIdUseCase
+            BuscarAlunoPorIdUseCase buscarPorIdUseCase, SalvarFotoUseCase salvarFotoUseCase
     ) {
         this.criarAlunoUseCase = criar;
         this.listar = listar;
@@ -50,8 +48,9 @@ public class AlunoController {
         this.atualizarAluno = atualizarAluno;
         this.ativarAluno = ativarAluno;
         this.buscarPorIdUseCase = buscarPorIdUseCase;
+        this.salvarFotoUseCase = salvarFotoUseCase;
     }
-
+//aceita o envio da foto
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> criarAluno(
             @RequestHeader("Authorization") String token,
@@ -65,8 +64,8 @@ public class AlunoController {
         if (!"Bearer token-fake-123".equals(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        String nomeArquivo = criarFoto(foto);
+        //atualizei aqui para usar o use case de salvar foto, que pode ter regras de negócio específicas
+       String nomeArquivo = salvarFotoUseCase.execute(foto);
 
         AlunoRequestDTO dto = new AlunoRequestDTO(
                 nome,
@@ -81,33 +80,29 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    private static String criarFoto(MultipartFile foto) throws IOException {
-        String extensao = foto.getOriginalFilename()
-                .substring(foto.getOriginalFilename().lastIndexOf("."));
-
-        String nomeArquivo = UUID.randomUUID() + extensao;
-
-        Path pasta = Paths.get("uploads");
-        if (!Files.exists(pasta)) {
-            Files.createDirectories(pasta);
-        }
-
-        Path caminho = pasta.resolve(nomeArquivo);
-
-        Files.copy(foto.getInputStream(), caminho);
-        return nomeArquivo;
-    }
-
+  
     // LISTAR COM PAGINAÇÃO
     @GetMapping
-    public ResponseEntity<PaginaResultado> listar(
+    public ResponseEntity<PaginaResultadoDTO> listar(
             @RequestParam(defaultValue = "0") int page
     ) {
-        return ResponseEntity.ok(listar.listar(page));
-    }
 
-    private List<Aluno> listarSemPaginacao() {
-        return buscarPorNome.execute(""); // retorna todos
+        PaginaResultado resultado = listar.listar(page);
+
+        List<AlunoResponseDTO> conteudoDTO = resultado.getConteudo()
+                .stream()
+                .map(AlunoResponseDTO::fromDomain)
+                .toList();
+
+        PaginaResultadoDTO dto = new PaginaResultadoDTO(
+                conteudoDTO,
+                resultado.getPaginaAtual(),
+                resultado.getTotalPaginas(),
+                resultado.getTotalElementos(),
+                resultado.isUltima()
+        );
+
+        return ResponseEntity.ok(dto);
     }
 
     // 🔍 Buscar por nome
@@ -124,10 +119,16 @@ public class AlunoController {
             @PathVariable UUID id,
             @RequestParam String email,
             @RequestParam String telefone,
-            @RequestParam MultipartFile foto,
+           @RequestParam(required = false) MultipartFile foto,
+           // @RequestParam MultipartFile foto,
             @RequestParam Status status
-    ) throws IOException {
-        String nomeArquivo = criarFoto(foto);
+    ) {
+
+        String nomeArquivo = null;
+
+        if (foto != null && !foto.isEmpty()) {
+            nomeArquivo = salvarFotoUseCase.execute(foto);
+        }
 
         AtualizarAlunoRequest dto = new AtualizarAlunoRequest();
         dto.setEmail(email);
@@ -135,10 +136,7 @@ public class AlunoController {
         dto.setStatus(status);
         dto.setFoto(nomeArquivo);
 
-        atualizarAluno.execute(
-                id,
-               dto
-        );
+        atualizarAluno.execute(id, dto);
 
         return ResponseEntity.noContent().build();
     }
@@ -156,9 +154,10 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Aluno> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<AlunoResponseDTO> buscarPorId(@PathVariable UUID id) {
 
         return buscarPorIdUseCase.execute(id)
+                .map(AlunoResponseDTO::fromDomain)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

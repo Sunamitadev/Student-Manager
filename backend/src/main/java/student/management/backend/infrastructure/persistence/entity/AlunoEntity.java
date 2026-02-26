@@ -9,8 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "alunos")
-public class AlunoEntity {
 
+public class AlunoEntity {
 
     @Id
     private UUID id;
@@ -50,7 +50,7 @@ public class AlunoEntity {
                 aluno.getFoto()
         );
     }
-
+//CONVERSÃO DE ENTITY PARA DOMAIN
     public Aluno toDomain() {
 
         return Aluno.reconstruir (id, nome, email, telefone,matricula, cpf, status, foto);

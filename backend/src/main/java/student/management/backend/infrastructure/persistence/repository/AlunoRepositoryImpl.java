@@ -23,7 +23,7 @@ public class AlunoRepositoryImpl implements AlunoRepository {
     public AlunoRepositoryImpl(AlunoJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
-
+    //persiste um aluno convertendo o domínio para a entidade
     @Override
     public void salvar(Aluno aluno) {
         jpaRepository.save(AlunoEntity.fromDomain(aluno));
@@ -51,6 +51,7 @@ public class AlunoRepositoryImpl implements AlunoRepository {
     public PaginaResultado listarPaginado(int pagina, int tamanho) {
 
         Page<AlunoEntity> page = jpaRepository.findAll(
+                //request de página com ordenação por matrícula decrescente
                 PageRequest.of(pagina, tamanho, Sort.by("matricula").descending())
         );
 
@@ -58,7 +59,7 @@ public class AlunoRepositoryImpl implements AlunoRepository {
                 .stream()
                 .map(AlunoEntity::toDomain)
                 .toList();
-
+//criar um objeto PaginaResultado com os dados da página
         return new PaginaResultado(
                 conteudo,
                 pagina,

@@ -19,7 +19,7 @@ public class DeletarAlunoUseCase {
     public void execute(UUID id) {
         Aluno aluno = repository.buscarPorId(id)
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-
+// Se o aluno estiver ativo, inativa ele. Se já estiver inativo, deleta do banco.
         if (aluno.getStatus() == Status.ATIVO) {
             aluno.inativar();
             repository.salvar(aluno);

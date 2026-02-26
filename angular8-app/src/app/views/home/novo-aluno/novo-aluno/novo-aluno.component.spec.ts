@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NovoAlunoComponent } from './novo-aluno.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('NovoAlunoComponent', () => {
   let component: NovoAlunoComponent;
@@ -8,7 +9,8 @@ describe('NovoAlunoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NovoAlunoComponent ]
+      declarations: [ NovoAlunoComponent ],
+      imports: [ReactiveFormsModule]
     })
     .compileComponents();
   }));

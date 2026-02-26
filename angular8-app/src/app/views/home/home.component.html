@@ -17,15 +17,11 @@
       </button>
     </div>
 
-    <!-- BUSCA -->
-    <div class="search-box">
-      <input
-        type="text"
-        placeholder="Buscar por nome ou matrícula..."
-        [(ngModel)]="filtro"
-        name="filtro"
-      />
-    </div>
+   <app-search (filtroMudou)="atualizarFiltro($event)"></app-search>
+
+    <div class="card-body">
+
+   </div>
 
     <!-- TABELA -->
     <table>
@@ -39,108 +35,68 @@
         </tr>
       </thead>
 
-      <tbody>
+   <tbody>
 
-        <!-- Caso não tenha alunos -->
-        <tr *ngIf="alunosFiltrados.length === 0">
-          <td colspan="4" style="text-align:center; padding:20px;">
-            Nenhum aluno cadastrado.
-          </td>
-        </tr>
+  <tr *ngIf="alunosFiltrados.length === 0">
+    <td colspan="4" style="text-align:center; padding:20px;">
+      Nenhum aluno cadastrado.
+    </td>
+  </tr>
 
-        <!-- Listagem -->
-        <tr *ngFor="let aluno of alunosFiltrados">
+  <tr *ngFor="let aluno of alunosFiltrados">
 
-          <td>{{ aluno.matricula }}</td>
+    <td>{{ aluno.matricula }}</td>
 
-          <td>
-            <div class="aluno-info">
+    <td>
+      <div class="aluno-info">
+        <img
+          *ngIf="aluno.foto"
+          [src]="'http://localhost:8080/uploads/' + aluno.foto"
+          class="avatar"
+        />
+        <span>{{ aluno.nome }}</span>
+      </div>
+    </td>
 
-              <!-- FOTO -->
-              <img
-                *ngIf="aluno.foto"
-                [src]="'http://localhost:8080/uploads/' + aluno.foto"
-                class="avatar"
-              />
+    <td>
+      <app-status-badge [status]="aluno.status"></app-status-badge>
+    </td>
 
-              <span>{{ aluno.nome }}</span>
-            </div>
-          </td>
+    <td class="actions">
 
-          <td>
-            <span
-              class="status"
-              [ngClass]="{
-                'ativo': aluno.status === 'ATIVO',
-                'inativo': aluno.status === 'INATIVO'
-              }"
-            >
-              {{ aluno.status }}
-            </span>
-          </td>
-
-          <td class="actions">
-
-            <!-- VER -->
-            <button
-              class="btn-icon view"
-              title="Ver detalhes"
-              (click)="verDetalhe(aluno.id)"
-            >
-              <i class="fas fa-eye"></i>
-            </button>
-
-            <!-- EDITAR -->
-            <button
-              class="btn-icon edit"
-              title="Editar"
-              (click)="editarAluno(aluno.id)"
-            >
-              <i class="fas fa-edit"></i>
-            </button>
-
-            <!-- EXCLUIR -->
-            <button
-              class="btn-icon delete"
-              title="Excluir"
-              (click)="apagarAluno(aluno.id)"
-            >
-              <i class="fas fa-trash"></i>
-            </button>
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-
-    </table>
-    <div class="pagination">
-
-      <button 
-        class="arrow"
-        (click)="paginaAnterior()"
-        [disabled]="paginaAtual === 0">
-        ‹
+      <button class="btn-icon view"
+        (click)="verDetalhe(aluno.id)">
+        <i class="fas fa-eye"></i>
       </button>
 
-      <button
-        *ngFor="let p of [].constructor(totalPaginas); let i = index"
-        (click)="irParaPagina(i)"
-        [ngClass]="{'active': i === paginaAtual}">
-        {{ i + 1 }}
+      <button class="btn-icon edit"
+        (click)="editarAluno(aluno.id)">
+        <i class="fas fa-edit"></i>
       </button>
 
-      <button
-        class="arrow"
-        (click)="proximaPagina()"
-        [disabled]="ultimaPagina">
-        ›
+      <button class="btn-icon delete"
+        (click)="apagarAluno(aluno.id)">
+        <i class="fas fa-trash"></i>
       </button>
 
-    </div>
+    </td>
 
-  </div>
+  </tr>
+
+</tbody>
+
+
+ </table>
+
+   <app-pagination
+  [paginaAtual]="paginaAtual"
+  [totalPaginas]="totalPaginas"
+  [ultimaPagina]="ultimaPagina"
+  (paginaMudou)="irParaPagina($event)">
+</app-pagination>
+
+   
+
+  </div>  
 
 </div>

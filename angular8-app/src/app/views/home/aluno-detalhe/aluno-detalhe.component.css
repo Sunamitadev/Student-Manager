@@ -60,13 +60,6 @@
   background: #f9f9f9;
 }
 
-.status .ativo {
-  color: green;
-}
-
-.status .inativo {
-  color: rgb(211, 211, 25);
-}
 
 .btn-voltar {
   width: 100%;
@@ -77,3 +70,5 @@
   background: #ddd;
   cursor: pointer;
 }
+
+

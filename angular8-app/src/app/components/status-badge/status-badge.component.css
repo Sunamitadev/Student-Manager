@@ -1,0 +1,7 @@
+.status .ativo {
+  color: green;
+}
+
+.status .inativo {
+  color: rgb(211, 211, 25);
+}

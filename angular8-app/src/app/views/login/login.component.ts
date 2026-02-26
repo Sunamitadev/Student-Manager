@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   entrar() {
     console.log("usuario: " , this.usuario);
     console.log("senha: " , this.senha);
+    //receber os dados do formulário e enviar para o backend
     this.authService.login(this.usuario, this.senha)
       .subscribe({
         next: (response) => {

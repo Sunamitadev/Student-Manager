@@ -5,10 +5,11 @@ import { StudentService } from 'src/app/models/student.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
+  templateUrl: './home.component.html', 
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  
 
   loadingDeleteId = '';
   alunos: Aluno[] = [];
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarAlunos();
+    
   }
 
 
@@ -36,6 +38,8 @@ export class HomeComponent implements OnInit {
         this.alunos = response.conteudo;
         this.totalPaginas = response.totalPaginas;
         this.ultimaPagina = response.ultima;
+    console.log(response.conteudo[0]);
+    console.log('Status :', response.conteudo[0].status);
 
       },
       error: (err) => console.error(err)
@@ -88,6 +92,10 @@ apagarAluno(id: string) {
     }
   });
 }
+//*** */
+atualizarFiltro(valor: string): void {
+  this.filtro = valor;
+}
 
   // FILTRO LOCAL
   get alunosFiltrados(): Aluno[] {
@@ -126,6 +134,7 @@ apagarAluno(id: string) {
       this.carregarAlunos();
     }
   }
+  
 
   
 }

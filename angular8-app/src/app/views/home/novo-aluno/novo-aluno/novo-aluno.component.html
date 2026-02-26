@@ -1,6 +1,8 @@
 <div class="page">
 
-  <div class="form-card">
+  <form [formGroup]="form" >
+
+    <div class="form-card">
 
     <!-- HEADER -->
     <div class="header">
@@ -49,8 +51,8 @@
       <div class="input-icon">
         <i class="fas fa-user"></i>
         <input
-          [disabled]="isEditando"
-          [(ngModel)]="nome"
+          
+          formControlName="nome"
           name="nome"
           placeholder="Digite o nome do aluno"
         >
@@ -62,8 +64,7 @@
       <label>Email</label>
       <div class="input-icon">
         <i class="fas fa-envelope"></i>
-        <input
-          [(ngModel)]="email"
+        <input formControlName="email"
           name="email"
           placeholder="aluno@email.com"
         >
@@ -76,8 +77,7 @@
       <div class="input-icon">
         <i class="fas fa-id-card"></i>
         <input
-          [disabled]="isEditando"
-          [(ngModel)]="cpf"
+          formControlName="cpf"
           name="cpf"
           placeholder="000.000.000-00"
           maxlength="14"
@@ -92,7 +92,7 @@
       <div class="input-icon">
         <i class="fas fa-phone"></i>
         <input
-          [(ngModel)]="telefone"
+          formControlName="telefone"
           name="telefone"
           placeholder="(00) 00000-0000"
           maxlength="15"
@@ -101,13 +101,14 @@
       </div>
     </div>
 
-    <ng-container *ngIf="isEditando">
+    <div *ngIf="isEditando">
         <div class="status-wrapper">
         <label class="titulo-status">Status</label>
 
         <div class="status-opcoes">
             <label class="status-item">
-            <input type="radio" name="status" [(ngModel)]="status" value="ativo">
+            <input type="radio"  formControlName="status"
+             value="ATIVO">
             <span class="custom-radio ativo"></span>
             Ativo
             </label>
@@ -115,13 +116,14 @@
             <span class="divider"></span>
 
             <label class="status-item">
-            <input type="radio" name="status" [(ngModel)]="status" value="inativo">
+            <input type="radio"  formControlName="status" 
+            value="INATIVO">
             <span class="custom-radio inativo"></span>
             Inativo
             </label>
         </div>
         </div>
-    </ng-container>
+    </div>
 
     <!-- BOTÕES -->
     <div class="buttons">
@@ -131,8 +133,11 @@
 
       <button type="button" class="btn-save" 
       *ngIf="!isEditando"
-      [disabled]="!formularioValido()"
-      [ngClass]="{'btn-disabled': !formularioValido()}"
+      [disabled]="!formularioCompleto"
+      [ngClass]="{
+        'btn-disabled': !formularioCompleto,
+        'btn-primary': formularioCompleto
+      }"
       (click)="cadastrar()">
         Cadastrar
       </button>
@@ -140,12 +145,15 @@
       
       <button type="button" class="btn-save" 
       *ngIf="isEditando"
-      [disabled]="!formularioValido()"
-      [ngClass]="{'btn-disabled': !formularioValido()}"
+      [disabled]="form.invalid"
+      [ngClass]="{'btn-disabled': form.invalid}"
       (click)="atualizar()">
         Salvar
       </button>
     </div>
 
   </div>
+  </form>
+
+  
 </div>

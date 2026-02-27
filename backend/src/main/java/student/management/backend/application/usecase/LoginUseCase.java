@@ -2,11 +2,12 @@ package student.management.backend.application.usecase;
 
 import org.springframework.stereotype.Service;
 import student.management.backend.domain.model.Usuario;
+import student.management.backend.domain.usecase.Login;
 
 import java.util.regex.Pattern;
 
 @Service
-public class LoginUseCase {
+public class LoginUseCase implements Login {
 
     private static final Pattern REGRA_CREDENCIAL =
             Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d).{8,}$");

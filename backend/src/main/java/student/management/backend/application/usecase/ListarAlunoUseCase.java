@@ -1,10 +1,9 @@
 package student.management.backend.application.usecase;
 
 import org.springframework.stereotype.Service;
-import student.management.backend.application.dto.PaginaResultado;
+import student.management.backend.domain.model.PaginaResultado;
 import student.management.backend.domain.repository.AlunoRepository;
-import org.springframework.data.domain.Sort ;
-import org.springframework.data.domain.PageRequest;
+
 @Service
 public class ListarAlunoUseCase {
 

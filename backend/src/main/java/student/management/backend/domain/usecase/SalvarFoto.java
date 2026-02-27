@@ -1,4 +1,4 @@
-package student.management.backend.application.usecase;
+package student.management.backend.domain.usecase;
 
 import org.springframework.web.multipart.MultipartFile;
 

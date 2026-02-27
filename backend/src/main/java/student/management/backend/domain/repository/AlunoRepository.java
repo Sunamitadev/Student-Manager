@@ -1,6 +1,6 @@
 package student.management.backend.domain.repository;
 
-import student.management.backend.application.dto.PaginaResultado;
+import student.management.backend.domain.model.PaginaResultado;
 import student.management.backend.domain.model.Aluno;
 
 import java.util.List;

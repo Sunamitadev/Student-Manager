@@ -1,14 +1,14 @@
 package student.management.backend.application.usecase;
 
+import student.management.backend.application.dto.AtualizarAlunoDTO;
 import student.management.backend.domain.model.Aluno;
-import student.management.backend.domain.model.Status;
 import student.management.backend.domain.repository.AlunoRepository;
 import org.springframework.stereotype.Service;
-import student.management.backend.presentation.dto.AtualizarAlunoRequest;
+import student.management.backend.domain.usecase.AtualizarAluno;
 
 import java.util.UUID;
 @Service
-public class AtualizarAlunoUseCase {
+public class AtualizarAlunoUseCase implements AtualizarAluno {
 
     private final AlunoRepository repository;
 
@@ -16,13 +16,20 @@ public class AtualizarAlunoUseCase {
         this.repository = repository;
     }
 
-    public void execute(UUID id, AtualizarAlunoRequest request) {
+    @Override
+    public void execute(UUID id, AtualizarAlunoDTO dto) {
 
-        Aluno aluno = repository.buscarPorId(id)
+        var aluno = repository.buscarPorId(id)
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
 
-        aluno.atualizarDados(request.getEmail(), request.getTelefone(), request.getFoto());
-        aluno.alterarStatus(request.getStatus());
+        aluno.atualizarDados(
+                dto.email(),
+                dto.telefone(),
+                dto.foto()
+        );
+
+        aluno.alterarStatus(dto.status());
+
         repository.salvar(aluno);
     }
 }

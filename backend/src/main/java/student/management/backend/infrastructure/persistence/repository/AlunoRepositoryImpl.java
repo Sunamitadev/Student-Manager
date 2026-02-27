@@ -3,7 +3,7 @@ package student.management.backend.infrastructure.persistence.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import student.management.backend.application.dto.PaginaResultado;
+import student.management.backend.domain.model.PaginaResultado;
 import student.management.backend.domain.model.Aluno;
 import student.management.backend.domain.repository.AlunoRepository;
 import student.management.backend.infrastructure.persistence.entity.AlunoEntity;

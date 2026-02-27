@@ -1,4 +1,4 @@
-package student.management.backend.application.dto;
+package student.management.backend.domain.model;
 import student.management.backend.domain.model.Aluno;
 import java.util.List;
 

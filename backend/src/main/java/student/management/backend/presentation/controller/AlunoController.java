@@ -2,20 +2,14 @@ package student.management.backend.presentation.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
-import student.management.backend.application.dto.AlunoRequestDTO;
-import student.management.backend.application.dto.AlunoResponseDTO;
-import student.management.backend.application.dto.PaginaResultado;
-import student.management.backend.application.dto.PaginaResultadoDTO;
+import student.management.backend.application.dto.*;
 import student.management.backend.application.usecase.*;
-import student.management.backend.domain.model.Aluno;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import student.management.backend.domain.model.PaginaResultado;
 import student.management.backend.domain.model.Status;
-import student.management.backend.presentation.dto.AtualizarAlunoRequest;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.http.MediaType;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,11 +101,16 @@ public class AlunoController {
 
     // 🔍 Buscar por nome
     @GetMapping("/buscar")
-    public ResponseEntity<?> buscarPorNome(
+    public ResponseEntity<List<AlunoResponseDTO>> buscarPorNome(
             @RequestParam String nome
-
     ) {
-        return ResponseEntity.ok(buscarPorNome.execute(nome));
+
+        List<AlunoResponseDTO> alunos = buscarPorNome.execute(nome)
+                .stream()
+                .map(AlunoResponseDTO::fromDomain)
+                .toList();
+
+        return ResponseEntity.ok(alunos);
     }
 
     @PutMapping("/{id}")
@@ -130,11 +129,12 @@ public class AlunoController {
             nomeArquivo = salvarFotoUseCase.execute(foto);
         }
 
-        AtualizarAlunoRequest dto = new AtualizarAlunoRequest();
-        dto.setEmail(email);
-        dto.setTelefone(telefone);
-        dto.setStatus(status);
-        dto.setFoto(nomeArquivo);
+        AtualizarAlunoDTO dto = new AtualizarAlunoDTO(
+                email,
+                telefone,
+                status,
+                nomeArquivo
+        );
 
         atualizarAluno.execute(id, dto);
 

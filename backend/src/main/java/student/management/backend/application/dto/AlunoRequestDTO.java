@@ -1,6 +1,7 @@
 package student.management.backend.application.dto;
 
-public record AlunoRequestDTO<cpf>(
+// DTO para receber os dados do aluno na criação ou atualização evitar expor a entidade diretamente
+public record AlunoRequestDTO(
         String nome,
         String email,
         String telefone,
